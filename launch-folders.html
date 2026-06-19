@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launch Folders - WebTrigger Docs</title>
+<meta name="description" content="Learn how WebTrigger Launch Folders discover launchable items and expose them to WebShells.">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo"><img src="img/icon.png" alt="WebTrigger icon" />WebTrigger</a>
+  <div class="nav-actions"><a href="index.html" class="btn btn-ghost">Back Home</a></div>
+</nav>
+
+<main class="docs-page">
+  <div class="docs-container">
+    <div class="docs-top-nav" aria-label="Documentation navigation">
+      <a href="getting-started.html">Getting Started</a>
+      <a href="actions.html">Actions</a>
+      <a href="live-data-sources.html">Live Data Sources</a>
+      <a href="launch-folders.html" class="active">Launch Folders</a>
+      <a href="shelldev.html">WebShell Development Kit</a>
+    </div>
+
+    <header class="docs-hero">
+      <div class="section-tag">Launchers</div>
+      <h1>Launch Folders</h1>
+      <p>A Launch Folder is a folder monitored by WebTrigger. Items are discovered automatically and exposed to WebShells so users can build launchers without manually creating every button.</p>
+    </header>
+
+    <section class="docs-card">
+      <h2>Typical Use Cases</h2>
+      <div class="concept-grid">
+        <article class="concept-card"><h3>Games</h3><p>Point WebTrigger at a games folder and build a couch-friendly launcher.</p></article>
+        <article class="concept-card"><h3>Applications</h3><p>Expose common desktop apps to a tablet, touch panel, or spare laptop.</p></article>
+        <article class="concept-card"><h3>Utilities</h3><p>Create quick launch pages for maintenance tools and helper apps.</p></article>
+        <article class="concept-card"><h3>Media Tools</h3><p>Group media apps, folders, or local control tools in one WebShell view.</p></article>
+      </div>
+    </section>
+
+    <section class="docs-card">
+      <h2>Launch Folder Workflow</h2>
+      <div class="docs-flow">
+        <div>Folder</div>
+        <div>WebTrigger Scan</div>
+        <div>Launchable Items</div>
+        <div>WebShell</div>
+      </div>
+    </section>
+
+    <section class="docs-card">
+      <h2>Launch Folder APIs</h2>
+      <div class="endpoint-list">
+        <div class="endpoint-row"><span>GET</span><code>/api/launch-folders</code><p>List configured launch folders.</p></div>
+        <div class="endpoint-row"><span>GET</span><code>/api/launch-folders/{id}/items</code><p>List discovered items inside a launch folder.</p></div>
+        <div class="endpoint-row"><span>POST</span><code>/api/launch-items/{id}/launch</code><p>Launch one discovered item.</p></div>
+      </div>
+      <pre><code>const folders = await fetch('/api/launch-folders').then(res =&gt; res.json());
+const items = await fetch(`/api/launch-folders/${folders[0].id}/items`).then(res =&gt; res.json());
+
+await fetch(`/api/launch-items/${items[0].id}/launch`, {
+  method: 'POST'
+});</code></pre>
+    </section>
+
+    <section class="docs-card docs-card-final">
+      <h2>Best Practices</h2>
+      <ul class="docs-checklist">
+        <li>Keep launch folders organized so WebShell pages stay readable.</li>
+        <li>Use clear folder names like Games, Utilities, Media, or Work Apps.</li>
+        <li>Be careful with script-capable folders and only expose trusted content.</li>
+        <li>Use search, categories, or paging for mobile launchers with many items.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+</body>
+</html>
