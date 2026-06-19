@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G6HBFBQC3Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-G6HBFBQC3Q');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Data Sources - WebTrigger Docs</title>
+<meta name="description" content="Learn how WebTrigger Live Data Sources display system values, custom HTTP data, PowerShell data, and Python data in WebShells.">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo"><img src="img/icon.png" alt="WebTrigger icon" />WebTrigger</a>
+  <div class="nav-actions"><a href="index.html" class="btn btn-ghost">Back Home</a></div>
+</nav>
+
+<main class="docs-page">
+  <div class="docs-container">
+    <div class="docs-top-nav" aria-label="Documentation navigation">
+      <a href="getting-started.html">Getting Started</a>
+      <a href="actions.html">Actions</a>
+      <a href="live-data-sources.html" class="active">Live Data Sources</a>
+      <a href="launch-folders.html">Launch Folders</a>
+      <a href="shelldev.html">WebShell Development Kit</a>
+    </div>
+
+    <header class="docs-hero">
+      <div class="section-tag">Live Data</div>
+      <h1>Live Data Sources</h1>
+      <p>Live Data Sources display information. They do not perform actions. A WebShell can use LDS values to show system status, app status, media state, weather, service health, or anything else the user configures.</p>
+    </header>
+
+    <section class="docs-card">
+      <h2>Built-In LDS</h2>
+      <p class="docs-lede">WebTrigger includes built-in values that are ready for dashboards and control panels.</p>
+      <div class="concept-grid">
+        <article class="concept-card"><h3><code>cpu</code></h3><p>Current CPU usage.</p></article>
+        <article class="concept-card"><h3><code>ram</code></h3><p>Current memory usage.</p></article>
+        <article class="concept-card"><h3><code>volume</code></h3><p>Current system volume.</p></article>
+        <article class="concept-card"><h3><code>mute</code></h3><p>Current mute state.</p></article>
+        <article class="concept-card"><h3><code>battery</code></h3><p>Battery level when available.</p></article>
+        <article class="concept-card"><h3><code>battery_charging</code></h3><p>Charging state when available.</p></article>
+      </div>
+    </section>
+
+    <section class="docs-card">
+      <h2>Custom LDS</h2>
+      <div class="concept-grid">
+        <article class="concept-card"><h3>HTTP LDS</h3><p>Poll a local or remote API, then display a value from the response.</p></article>
+        <article class="concept-card"><h3>PowerShell LDS</h3><p>Run a trusted PowerShell command on the PC and display the result.</p></article>
+        <article class="concept-card"><h3>Python LDS</h3><p>Use Python for richer local calculations, parsing, or integrations.</p></article>
+        <article class="concept-card"><h3>Polling</h3><p>Custom sources update on an interval chosen in the Windows app.</p></article>
+      </div>
+    </section>
+
+    <section class="docs-card">
+      <h2>Live Update Flow</h2>
+      <div class="docs-flow">
+        <div>Data Source</div>
+        <div>WebTrigger</div>
+        <div>LDS Engine</div>
+        <div>WebShell</div>
+        <div>User</div>
+      </div>
+    </section>
+
+    <section class="docs-card">
+      <h2>Live Data API</h2>
+      <div class="endpoint-list">
+        <div class="endpoint-row"><span>GET</span><code>/api/live-data</code><p>Read the current live data snapshot.</p></div>
+        <div class="endpoint-row"><span>GET</span><code>/api/state/stream</code><p>Subscribe to live updates with Server-Sent Events.</p></div>
+      </div>
+      <pre><code>const values = await fetch('/api/live-data').then(res =&gt; res.json());
+document.querySelector('[data-lds="cpu"]').textContent = `${values.cpu}%`;
+
+const stream = new EventSource('/api/state/stream');
+stream.onmessage = event =&gt; {
+  const { key, value } = JSON.parse(event.data);
+  const target = document.querySelector(`[data-lds="${key}"]`);
+  if (target) target.textContent = value;
+};</code></pre>
+    </section>
+
+    <section class="docs-card docs-card-final">
+      <h2>Displaying LDS Values</h2>
+      <div class="concept-grid">
+        <article class="concept-card"><h3>CPU Card</h3><p>Show usage, color, and a progress bar for quick system checks.</p></article>
+        <article class="concept-card"><h3>Weather Card</h3><p>Display a custom HTTP LDS with temperature and conditions.</p></article>
+        <article class="concept-card"><h3>Media Card</h3><p>Show volume, mute state, or current playback information from custom sources.</p></article>
+        <article class="concept-card"><h3>Server Status Card</h3><p>Poll a local service or device and show whether it is online.</p></article>
+      </div>
+    </section>
+  </div>
+</main>
+</body>
+</html>
